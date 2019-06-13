@@ -45,6 +45,7 @@ var jogo = {
 	this.termosBrutos.forEach(function(value){
 	
 		var t2 = value.split("::");
+		t2[0] = t2[0].replace(/\s/g,"");
 		jogo.termos.push(t2[0]);
 		jogo.descricao.push(t2[1]);
 	});
@@ -315,6 +316,21 @@ var jogo = {
 
 var palavras = [];
 
+function corrigeTexto(){
+
+	var content = document.getElementById('entradas');
+	var posicao = content.selectionStart;
+
+	content.value = content.value.replace(/[^0-9a-z:\-\. \n\?]/gmi,"");
+	content.value = content.value.replace(/\n\n/gmi,"\n");
+	//if (posicao > 0) posicao--;
+	content.setSelectionRange(posicao, posicao);
+	
+};
+
+document.getElementById('entradas').addEventListener("keypress",corrigeTexto);
+
+document.getElementById('entradas').addEventListener("change",corrigeTexto);
 
 function receber(){
 
@@ -322,7 +338,7 @@ function receber(){
 	
 	sessionStorage.setItem("textoSalvo", p);
 	
-	//p = p.replace("\r", "");
+	p = p.replace(/\r/gm, "");
 	var p2 = p.split("\n");
 	palavras = [];
 	p2.forEach(function(value){
