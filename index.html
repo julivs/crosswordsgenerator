@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<link rel="stylesheet" href="style.css">
+<style>
+</style>
+
+</head>
+
+<body onload="recuperaTexto();">
+
+<h2 id='teste'>CROSSWORDS GENERATOR</h2>
+
+<table>
+<tr>
+<td valign='top'>
+
+Put a word per row (word::Description):<br>
+<textarea cols=50 rows=25 id='entradas'></textarea><BR>
+<input type='button' onclick='receber();' value=' Build '> <input type='checkbox' id='restrito'>Restrict size.<br>
+<input type='button' onclick='vazio();' value=' Void '> <input type='button' onclick='cheio();' value=' Fill '><br>
+<input type='button' onclick='printElem();' value=' Print '>
+
+</td>
+<td width=700>
+
+<div id='jogo'></div>
+</td>
+</tr>
+</table>
+
+<script type="text/javascript" src="script.js">
+</script>
+
+</body>
+</html>
