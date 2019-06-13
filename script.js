@@ -59,7 +59,7 @@ var jogo = {
 	*/
     
     this.gradeSize = 15 * this.termos.length;
-	this.maxArea = parseInt(Math.sqrt(this.gradeSize) * 1.5) + 5;
+	this.maxArea = parseInt(Math.sqrt(this.gradeSize)) + 5;
 	console.log(this.maxArea);
 
 	this.preencherGrade();
@@ -187,8 +187,10 @@ var jogo = {
 		}
 	}
 	
-  if (this.usados.indexOf(0) != -1 && this.tentativas < 20) { // tenta ate 20 vezes
+  if (this.usados.indexOf(0) != -1 && this.tentativas < 40) { // tenta ate 20 vezes
   
+	if (this.tentativas == 20 && this.tamRestrito) this.maxArea = this.maxArea * 1.5;
+	
 	this.tentativas ++;
 	this.inicia();
 	
