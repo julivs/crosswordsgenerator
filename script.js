@@ -23,7 +23,7 @@ var jogo = {
 
 	tentativas: 0,
 	
-	inicia: function(){
+	inicia: function(recebeMaxArea){
 	  this.termosBrutos = palavras;
 	  this.termos = [];
 	  this.descricao = [];
@@ -37,8 +37,7 @@ var jogo = {
 	  this.gradeDirecao = [];
 	  this.tamRestrito = document.getElementById('restrito').checked;
 	  
-	var maior = 0;
-    var itens = this.termos;
+	var itens = this.termos;
 	
 	this.termosBrutos = shuffle(this.termosBrutos);
 	
@@ -50,16 +49,22 @@ var jogo = {
 		jogo.descricao.push(t2[1]);
 	});
     
-	/*
-    this.termos.sort(function(a,b){
-      if (a.length > b.length) return -1;
-      else if (a.length == b.length) return 0;
-      else return 1;
-    });
-	*/
     
     this.gradeSize = 15 * this.termos.length;
-	this.maxArea = parseInt(Math.sqrt(this.gradeSize)) + 5;
+	
+	this.maiorTermo = 0;
+	for (var i = 0; i < this.termos.length; i++){
+	
+		if (this.termos[i].length > this.maiorTermo) this.maiorTermo = this.termos[i].length + 3;
+	}
+	
+	var areaPorTermos = Math.round(Math.sqrt(this.termos.length * this.maiorTermo)) + 3;
+	
+	if (this.maiorTermo > areaPorTermos) this.maxArea = this.maiorTermo;
+	else this.maxArea = areaPorTermos;
+	
+	if (typeof recebeMaxArea != 'undefined') this.maxArea = parseInt(recebeMaxArea);
+	
 	console.log(this.maxArea);
 
 	this.preencherGrade();
@@ -152,7 +157,7 @@ var jogo = {
 	var result, direcao;
 	var inicio = [0,0];
 	
-	for (var tenta = 0; tenta < 4; tenta ++){
+	for (var tenta = 0; tenta < this.maiorTermo - 3; tenta ++){
 		for (var i = 0; i < this.termos.length; i++){
 			for (var j = 0; j < this.termos.length; j++){
 			
@@ -187,12 +192,13 @@ var jogo = {
 		}
 	}
 	
-  if (this.usados.indexOf(0) != -1 && this.tentativas < 40) { // tenta ate 20 vezes
+  if (this.usados.indexOf(0) != -1 && this.tentativas < 40) { // tenta ate 40 vezes
   
-	if (this.tentativas == 20 && this.tamRestrito) this.maxArea = this.maxArea * 1.5;
+	if (this.tentativas == 20 && this.tamRestrito) this.maxArea = Math.round(this.maxArea * 1.3);
+	if (this.tentativas == 30 && this.tamRestrito) this.maxArea = Math.round(this.maxArea * 1.3);
 	
 	this.tentativas ++;
-	this.inicia();
+	this.inicia(this.maxArea);
 	
   }
   
@@ -325,6 +331,7 @@ function corrigeTexto(){
 
 	content.value = content.value.replace(/[^0-9a-z:\-\. \n\?]/gmi,"");
 	content.value = content.value.replace(/\n\n/gmi,"\n");
+	content.value = content.value.replace(/0/gmi,"O");
 	//if (posicao > 0) posicao--;
 	content.setSelectionRange(posicao, posicao);
 	
