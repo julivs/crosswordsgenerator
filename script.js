@@ -283,14 +283,24 @@ var jogo = {
  
  },
  
- mostraTabela: function(d, vazio){
+ mostraTabela: function(d, vazio, percent){
  
 	var va = false;
+	var per = 100;
+	var use = true;
+	
 	if (typeof vazio != 'undefined'){
 	
 		if (vazio) va = true;
 	}
-  
+
+	if (typeof percent != 'undefined'){
+	
+		if (percent) per = parseInt(document.getElementById('percentFill').value);
+	
+	}
+	
+	
 	var saida = '';
 	var valor;
 	
@@ -302,8 +312,11 @@ var jogo = {
 	for (var i = this.limites[0] - 1; i <= this.limites[2]; i++){
 		saida += "<TR>";
 		for (var j = this.limites[1] - 1; j <= this.limites[3]; j++){
+		
+			if (Math.round(Math.random() * 100) <= per) use = true;
+			else use = false;
 	
-			if (!va) valor = (this.grade[i][j] == 0) ? '<td>&nbsp;</td>' : "<TD class='letra'>"+this.grade[i][j]+"</TD>";
+			if (!va) valor = (this.grade[i][j] == 0) ? '<td>&nbsp;</td>' : "<TD class='letra'>" + ((use || this.grade[i][j].toString().length > 1) ? this.grade[i][j] : '&nbsp;') + "</TD>";
 			else valor = (this.grade[i][j] == 0) ? '<td>&nbsp;</td>' : "<TD class='letra'>"+(this.grade[i][j].toString().length > 1 ? this.grade[i][j] : "&nbsp;")+"</TD>";
 			
 			saida += valor;			
@@ -375,6 +388,13 @@ function cheio(){
 	jogo.mostraTabela('jogo',false);
 
 }
+
+function parcial(){
+
+	jogo.mostraTabela('jogo',false, true);
+
+}
+
 
 function printElem(){
 
