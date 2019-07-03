@@ -342,7 +342,7 @@ function corrigeTexto(){
 	var content = document.getElementById('entradas');
 	var posicao = content.selectionStart;
 
-	content.value = content.value.replace(/[^0-9a-z:\-\. \n\?]/gmi,"");
+	content.value = content.value.replace(/[^0-9a-z:\-,;\. \n\?]/gmi,"");
 	content.value = content.value.replace(/\n\n/gmi,"\n");
 	content.value = content.value.replace(/0/gmi,"O");
 	//if (posicao > 0) posicao--;
